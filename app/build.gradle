@@ -1,0 +1,42 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-kapt"
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "io.aakit"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    androidExtensions {
+        experimental = true
+    }
+    packagingOptions {
+        excludeMeta.forEach { exclude it }
+    }
+}
+
+dependencies {
+    implementation dep.kotlin
+//    implementation dep.androidBase
+//    implementation dep.dagger
+//    implementation dep.kache
+    implementation project(':aakit')
+    kapt dep.daggerProcessor
+    testImplementation dep.test
+    androidTestImplementation dep.androidTest
+}

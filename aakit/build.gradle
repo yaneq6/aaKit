@@ -1,0 +1,44 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.yaneq6'
+android {
+    defaultConfig {
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    lintOptions {
+        abortOnError false
+    }
+    androidExtensions {
+        experimental = true
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+}
+dependencies {
+    implementation dep.kotlin
+    api dep.androidBase
+    api dep.kache
+//    api dep.timber
+    api dep.dagger
+    api dep.rxAndroid
+    testImplementation dep.test
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+//    archives packageReleaseJar
+    archives androidSourcesJar
+}
