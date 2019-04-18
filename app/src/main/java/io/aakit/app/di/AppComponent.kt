@@ -3,9 +3,9 @@ package io.aakit.app.di
 import android.app.Application
 import dagger.Component
 import io.aakit.app.App
+import io.aakit.app.base.Injector
 import io.aakit.app.domain.model.AppConfig
 import io.aakit.scope.AppScope
-import io.kache.android.Injector
 import io.kache.core.Kache
 
 @AppScope
@@ -24,6 +24,4 @@ interface AppComponent : Injector<App> {
     val cache: AppConfig.Cache
 
     val kacheProvider: Kache.Provider
-
-    override fun inject(instance: App)
 }

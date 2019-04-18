@@ -1,16 +1,14 @@
 package io.aakit.app
 
 import android.app.Activity
-import io.aakit.*
-import io.aakit.app.di.AppComponent
-import io.aakit.app.di.AppModule
-import io.aakit.app.di.DaggerAppComponent
-import io.aakit.app.di.CoreComponent
-import io.aakit.app.di.CoreModule
-import io.aakit.app.di.DaggerCoreComponent
-import io.kache.android.ReactiveApplication
-import io.kache.android.ReactiveContainer
+import io.aakit.ActivityLifecycleObservable
+import io.aakit.CacheGarbageCollector
+import io.aakit.app.di.*
+import io.aakit.invokeOnAny
+import io.aakit.invokeOnDestroyed
+import io.aakit.rx.ReactiveApplication
 import io.kache.rxjava.flowable
+import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import org.reactivestreams.Publisher
 import javax.inject.Inject
@@ -30,18 +28,16 @@ class App : ReactiveApplication<AppComponent>() {
         coreComponent.appConfigCache
     }
 
-    override val container = ReactiveContainer.Delegate<AppComponent>(this) {
-        appConfigCache.flowable().map { config ->
-            DaggerAppComponent.builder()
-                .appModule(AppModule(this, config, disposables))
-                .coreComponent(coreComponent)
-                .build()
-        }!!
-    }
-
     private fun CoreComponent.init() = apply {
         cacheGarbageCollector.invokeOnAny(appConfigCache)
     }
+
+    override fun createComponent(): Flowable<AppComponent> = appConfigCache.flowable().map { config ->
+        DaggerAppComponent.builder()
+            .appModule(AppModule(this, config, disposables))
+            .coreComponent(coreComponent)
+            .build()
+    }!!
 
     @Inject
     fun CompositeDisposable.init(

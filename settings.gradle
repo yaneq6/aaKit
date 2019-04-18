@@ -1,1 +1,2 @@
-include ':app', ':aakit'
+include ':app',
+        ':aakit'

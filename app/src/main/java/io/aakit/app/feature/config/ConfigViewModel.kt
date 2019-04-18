@@ -2,7 +2,7 @@ package io.aakit.app.feature.config
 
 import io.aakit.app.domain.model.PersistentModel
 import io.aakit.app.domain.model.WeakModel
-import io.kache.android.field
+import io.aakit.rx.field
 import io.kache.core.proxy
 import javax.inject.Inject
 
