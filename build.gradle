@@ -24,7 +24,7 @@ buildscript {
         timber_version = '4.7.1'
         debug_drawer_version = '0.8.0'
         fluks_version = '96ab0f8c34'
-        kache_version = 'e1536f0813'
+        kache_version = '1435e3824a'
 
 
         dep = [
